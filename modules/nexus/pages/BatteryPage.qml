@@ -33,13 +33,13 @@ PageBase {
         if (!UPower.displayDevice.isLaptopBattery)
             return Tr.tr("No battery detected");
         switch (UPower.displayDevice.state) {
-        case BatteryState.Charging:
+        case UPowerDeviceState.Charging:
             return Tr.tr("Charging");
-        case BatteryState.FullyCharged:
+        case UPowerDeviceState.FullyCharged:
             return Tr.tr("Fully charged");
-        case BatteryState.PendingCharge:
+        case UPowerDeviceState.PendingCharge:
             return Tr.tr("Pending charge");
-        case BatteryState.Discharging:
+        case UPowerDeviceState.Discharging:
             return Tr.tr("Discharging");
         default:
             return Tr.tr("Unknown");
