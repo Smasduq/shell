@@ -13,6 +13,13 @@ VerticalFadeFlickable {
 
     required property NexusState nState
 
+    readonly property var filteredPages: {
+        const q = nState.searchText.trim().toLowerCase();
+        if (q.length === 0)
+            return PageRegistry.pages;
+        return PageRegistry.pages.filter(p => p.label.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
+    }
+
     topMargin: Tokens.padding.large
     bottomMargin: Tokens.padding.large
     contentHeight: content.implicitHeight
@@ -31,7 +38,7 @@ VerticalFadeFlickable {
         Repeater {
             id: list
 
-            model: PageRegistry.pages
+            model: root.filteredPages
 
             StyledRect {
                 id: item
@@ -39,9 +46,10 @@ VerticalFadeFlickable {
                 required property var modelData
                 required property int index
 
-                readonly property bool isCurrentPage: index === root.nState.currentPageIdx
-                readonly property bool isCategoryStart: index === 0 || PageRegistry.pages[index - 1].category !== modelData.category
-                readonly property bool isCategoryEnd: index === list.model.length - 1 || PageRegistry.pages[index + 1].category !== modelData.category
+                readonly property int originalIndex: PageRegistry.pages.indexOf(modelData)
+                readonly property bool isCurrentPage: originalIndex === root.nState.currentPageIdx
+                readonly property bool isCategoryStart: index === 0 || root.filteredPages[index - 1].category !== modelData.category
+                readonly property bool isCategoryEnd: index === list.model.length - 1 || root.filteredPages[index + 1].category !== modelData.category
 
                 Layout.fillWidth: true
                 Layout.topMargin: index !== 0 && isCategoryStart ? Tokens.spacing.medium : 0
@@ -71,7 +79,7 @@ VerticalFadeFlickable {
                     bottomLeftRadius: parent.bottomLeftRadius
                     bottomRightRadius: parent.bottomRightRadius
 
-                    onClicked: root.nState.currentPageIdx = item.index
+                    onClicked: root.nState.currentPageIdx = item.originalIndex
                 }
 
                 RowLayout {
