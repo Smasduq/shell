@@ -57,6 +57,14 @@ QtObject {
             category: "system"
         },
 
+        // Power
+        {
+            label: Tr.tr("Battery"),
+            icon: "battery_full",
+            description: Tr.tr("Power profile, screen timeout, warnings"),
+            category: "power"
+        },
+
         // Shell
         {
             label: Tr.tr("Panels"),

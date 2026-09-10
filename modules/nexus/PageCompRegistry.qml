@@ -101,6 +101,15 @@ QtObject {
             PlaceholderComp {}
         },
 
+        // Power
+        Component {
+            StackPage {
+                Component {
+                    BatteryPage {}
+                }
+            }
+        },
+
         // Shell
         Component {
             // Panels
